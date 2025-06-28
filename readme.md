@@ -16,17 +16,23 @@ Testando agora git no terminal
 
 ---
 
+## Adicionar Arquivo
+
 Para que o git reconheça seu arquivo, digite
 
 `git add <Nome do arquivo>`
 
 ---
 
+## Commit
+
 Para fazer um commit, digite
 
 `git commit -m "<Mensagem do commit>"`
 
 ---
+
+## Logs
 
 Com seus primeiros commits, você pode ver as logs das commits digitando
 
@@ -39,11 +45,15 @@ Com seus primeiros commits, você pode ver as logs das commits digitando
 
 ---
 
+## Monitorar commits
+
 Você pode monitorar os commits usando suas hashs
 
 `git show <hash do commit>`
 
 ---
+
+## Diferenciar commits
 
 Após suas mudanças no código, você pode diferenciar o último commit com o recém modificado digitando
 
@@ -51,6 +61,8 @@ Após suas mudanças no código, você pode diferenciar o último commit com o r
 - `git diff --name-only` (para saber apenas os arquivos modificados)
 
 ---
+
+## Desfazer alterações
 
 Para qualquer imprevisto e reverter uma alteração de um arquivo, digite
 
