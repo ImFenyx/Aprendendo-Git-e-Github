@@ -49,3 +49,25 @@ Após suas mudanças no código, você pode diferenciar o último commit com o r
 
 - `git diff`
 - `git diff --name-only` (para saber apenas os arquivos modificados)
+
+---
+
+Para qualquer imprevisto e reverter uma alteração de um arquivo, digite
+
+`git checkout <nome do arquivo>`
+
+Esse comando vai voltar o estado do seu arquivo para o último commit
+
+Caso você tenha dado um **`git add`**, você pode reverter digitando
+
+`git reset HEAD <nome do arquivo>`
+
+Caso já tenha comittado, você também pode reverter digitando
+
+- `git reset --soft` -> Vai reverter o commit, mas com os arquivos em staged
+- `git reset --mixed` -> Vai reverter, voltando os arquivos antes do staged
+- `git reset --hard` -> Vai ignorar completamente o commit e destruir todas as alterações
+
+
+
+
