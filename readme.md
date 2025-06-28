@@ -25,3 +25,18 @@ Para que o git reconheça seu arquivo, digite
 Para fazer um commit, digite
 
 `git commit -m "<Mensagem do commit>"`
+
+---
+
+Com seus primeiros commits, você pode ver as logs das commits digitando
+
+`git log` ou `git log --decorate` (Aplica mais detalhes) ou `git log --author="<autor>"` (Filtra pro autores) ou `git shortlog` (Log em ordem alfabética de cada autor) ou `git log --graph` (Gráfico das logs), etc.
+
+---
+
+Você pode monitorar os commits usando suas hashs
+
+`git show <hash do commit>`
+
+
+
