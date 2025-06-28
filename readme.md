@@ -43,5 +43,9 @@ Você pode monitorar os commits usando suas hashs
 
 `git show <hash do commit>`
 
+---
 
+Após suas mudanças no código, você pode diferenciar o último commit com o recém modificado digitando
 
+- `git diff`
+- `git diff --name-only` (para saber apenas os arquivos modificados)
