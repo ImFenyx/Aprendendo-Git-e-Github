@@ -80,6 +80,3 @@ Caso já tenha comittado, você também pode reverter digitando
 - `git reset --mixed` -> Vai reverter, voltando os arquivos antes do staged
 - `git reset --hard` -> Vai ignorar completamente o commit e destruir todas as alterações
 
-
-
-
