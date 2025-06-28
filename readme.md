@@ -1,3 +1,6 @@
+> [!TIP]
+> Para melhor visualização, use fonte monoespaçada como ligaturas | [(Exemplo)](https://www.jetbrains.com/pt-br/lp/mono/)
+
 # Github Testes
 
 Testando agora git no terminal
@@ -90,7 +93,7 @@ Um **branch** (ramo, em português) é uma linha de desenvolvimento independente
 
 Quando você inicia um projeto, o Git cria um branch padrão chamado `main` (ou `master` em repositórios mais antigos). Cada vez que você faz um commit, o branch `main` avança, apontando para o seu último trabalho.
 
-Criar um novo branch significa criar um novo ponteiro, que começa apontando para o mesmo commit que o branch atual. A partir daí, os commits feitos nesse novo branch não afetarão o branch original, permitindo que eles "divirjam" e sigam 
+Criar um novo branch significa criar um novo ponteiro, que começa apontando para o mesmo commit que o branch atual. A partir daí, os commits feitos nesse novo branch não afetarão o branch original, permitindo que eles "divirjam" e sigam
 
 ---
 
@@ -144,7 +147,7 @@ Vamos ver o passo a passo:
 
     ```
       [main] → [Commit C]
-    
+
                       ↘
                         [feature/login] → [Commit D]
                                             ↑
@@ -172,31 +175,37 @@ Vamos ver o passo a passo:
 Usar branches não é apenas uma "boa prática", é a base para um fluxo de trabalho de desenvolvimento moderno e eficiente.
 
 **1. Isolamento e Segurança:**
-*   Você pode desenvolver novas funcionalidades, mesmo que grandes e complexas, sem qualquer risco de quebrar o código principal (`main`). A `main` deve sempre representar uma versão estável e, idealmente, "implantável" (deployable) do seu projeto.
+
+- Você pode desenvolver novas funcionalidades, mesmo que grandes e complexas, sem qualquer risco de quebrar o código principal (`main`). A `main` deve sempre representar uma versão estável e, idealmente, "implantável" (deployable) do seu projeto.
 
 **2. Experimentação Sem Medo:**
-*   Tem uma ideia maluca ou quer testar uma nova biblioteca? Crie um branch! Se não der certo, você pode simplesmente deletá-lo (`git branch -d nome-do-branch`) sem deixar rastros no projeto principal.
+
+- Tem uma ideia maluca ou quer testar uma nova biblioteca? Crie um branch! Se não der certo, você pode simplesmente deletá-lo (`git branch -d nome-do-branch`) sem deixar rastros no projeto principal.
 
 **3. Trabalho em Equipe (Desenvolvimento Paralelo):**
-*   Esta é a maior vantagem para equipes. Vários desenvolvedores podem trabalhar em funcionalidades diferentes ao mesmo tempo, cada um em seu próprio branch. Isso evita que um desenvolvedor precise esperar o outro terminar para poder começar seu trabalho.
+
+- Esta é a maior vantagem para equipes. Vários desenvolvedores podem trabalhar em funcionalidades diferentes ao mesmo tempo, cada um em seu próprio branch. Isso evita que um desenvolvedor precise esperar o outro terminar para poder começar seu trabalho.
 
 **4. Organização e Clareza:**
-*   O histórico do seu projeto fica muito mais limpo. Em vez de uma única linha de commits com mensagens como "comecei a funcionalidade X" e "corrigi bug na funcionalidade Y", você tem branches dedicados: `feature/user-profile`, `hotfix/login-bug`, `release/v1.1.0`. Fica fácil entender o que aconteceu e quando.
+
+- O histórico do seu projeto fica muito mais limpo. Em vez de uma única linha de commits com mensagens como "comecei a funcionalidade X" e "corrigi bug na funcionalidade Y", você tem branches dedicados: `feature/user-profile`, `hotfix/login-bug`, `release/v1.1.0`. Fica fácil entender o que aconteceu e quando.
 
 **5. Facilita o Code Review (Revisão de Código):**
-*   Branches são a base para **Pull Requests** (ou Merge Requests) em plataformas como GitHub, GitLab e Bitbucket. O fluxo é:
-    1.  Você cria um branch para sua tarefa.
-    2.  Termina o trabalho e envia (`push`) seu branch para o repositório remoto.
-    3.  Abre um Pull Request, que é um pedido formal para "unir meu branch ao branch `main`".
-    4.  Outros desenvolvedores podem revisar seu código, deixar comentários e sugerir melhorias *antes* que ele seja integrado à base principal.
+
+- Branches são a base para **Pull Requests** (ou Merge Requests) em plataformas como GitHub, GitLab e Bitbucket. O fluxo é:
+  1.  Você cria um branch para sua tarefa.
+  2.  Termina o trabalho e envia (`push`) seu branch para o repositório remoto.
+  3.  Abre um Pull Request, que é um pedido formal para "unir meu branch ao branch `main`".
+  4.  Outros desenvolvedores podem revisar seu código, deixar comentários e sugerir melhorias _antes_ que ele seja integrado à base principal.
 
 **6. Gerenciamento de Versões e Hotfixes:**
-*   Imagine que você lançou a versão 1.0 do seu software (que está no branch `main`). Enquanto a equipe já trabalha em novas funcionalidades para a versão 2.0 em seus próprios branches, um bug crítico é descoberto na versão 1.0.
-*   Sem branches, seria um pesadelo. Com branches, é simples:
-    1.  Crie um branch chamado `hotfix/bug-critico` a partir do `main`.
-    2.  Corrija o bug nesse branch.
-    3.  Faça o merge do `hotfix` de volta para o `main` e lance a versão 1.0.1.
-    4.  Tudo isso sem interferir no desenvolvimento da versão 2.0.
+
+- Imagine que você lançou a versão 1.0 do seu software (que está no branch `main`). Enquanto a equipe já trabalha em novas funcionalidades para a versão 2.0 em seus próprios branches, um bug crítico é descoberto na versão 1.0.
+- Sem branches, seria um pesadelo. Com branches, é simples:
+  1.  Crie um branch chamado `hotfix/bug-critico` a partir do `main`.
+  2.  Corrija o bug nesse branch.
+  3.  Faça o merge do `hotfix` de volta para o `main` e lance a versão 1.0.1.
+  4.  Tudo isso sem interferir no desenvolvimento da versão 2.0.
 
 ---
 
