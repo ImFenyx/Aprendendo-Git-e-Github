@@ -242,3 +242,137 @@ git branch -d outra-feature
 # Força a deleção de um branch (cuidado!)
 git branch -D outra-feature
 ```
+
+---
+
+## Branches (Parte 2)
+
+### 1. O que é o `git rebase`?
+
+Se o `merge` é como "unir duas linhas do tempo em um único ponto", o `rebase` é como "viajar no tempo para reescrever a história".
+
+**Rebase** significa, literalmente, **mudar a base** de um branch. Em vez de criar um "commit de merge" para juntar duas histórias, o `rebase` pega todos os commits de um branch e os **reaplica**, um por um, no topo de outro branch.
+
+**Imagine a seguinte situação:**
+
+1.  Você criou um branch `feature/login` a partir do `main`.
+2.  Você fez dois commits (C3, C4) na sua `feature`.
+3.  Enquanto isso, outra pessoa fez um commit (C5) no `main`.
+
+Seu histórico se parece com isto:
+
+```
+      C3 -- C4  (feature/login)
+     /
+C1 -- C2 -- C5  (main)
+```
+
+Ao fazer um `git rebase main` (estando no branch `feature/login`), o Git move seus commits (C3, C4) para que eles sejam aplicados *depois* do último trabalho da `main` (C5), criando uma história linear:
+
+```
+                  C3'-- C4' (feature/login)
+                 /
+C1 -- C2 -- C5 -- (main)
+```
+
+Seus commits originais são descartados e novos commits (C3', C4') com as mesmas mudanças são criados. A história do seu branch foi reescrita para parecer que seu trabalho começou *depois* do C5.
+
+> [!TIP]
+> **Nunca faça rebase em um branch público/compartilhado que outras pessoas estejam usando (como o `main` ou `develop`).** Fazer isso reescreve a história que outras pessoas já baixaram, causando um caos absoluto quando elas tentarem sincronizar suas mudanças. Use o rebase principalmente em seus branches locais, antes de compartilhá-los.
+
+---
+
+### 2. Diferença Fundamental: `merge` vs. `rebase`
+
+| Característica | `git merge` | `git rebase` |
+| :--- | :--- | :--- |
+| **Histórico** | **Preserva a história** exatamente como aconteceu. Cria um novo "merge commit" para unir as duas linhas do tempo. | **Reescreve a história** para ser linear. Não cria um merge commit. O histórico fica limpo e reto. |
+| **Commit Resultante** | Cria um **commit de merge** explícito (ex: "Merge branch 'feature' into 'main'"). | **Não cria** um commit de merge. Apenas move os commits existentes para um novo ponto de partida. |
+| **Resolução de Conflitos** | Você resolve **todos os conflitos de uma vez**, em um único momento, antes de finalizar o merge commit. | Você resolve os conflitos **commit por commit**, à medida que o rebase os reaplica. |
+| **Filosofia** | "Quero um registro fiel de tudo que aconteceu, incluindo o desenvolvimento paralelo." | "Quero que a história do projeto seja o mais limpa e fácil de ler possível." |
+| **Segurança** | Não-destrutivo. Adiciona novos commits, mas não altera os existentes. Mais seguro para iniciantes. | Destrutivo (reescreve commits). Requer mais cuidado e compreensão da dica acima. |
+
+---
+
+### 3. Comparação na Prática: Fluxos de Trabalho
+
+Vamos ver como cada um se comporta em um cenário real.
+
+**Cenário:** Você está trabalhando no branch `feature/perfil`. Enquanto isso, a `main` recebeu novas atualizações. Você precisa atualizar seu branch antes de abrir um Pull Request.
+
+#### Fluxo de Trabalho com `git merge`
+
+Você atualiza seu branch de feature trazendo as mudanças da `main` para ele.
+
+```bash
+git switch feature/perfil
+git merge main
+```
+
+**Resultado no Histórico:**
+O histórico do seu branch `feature/perfil` agora terá um merge commit no meio.
+
+```
+      C3 -- C4 -- M  (feature/perfil)
+     /           /
+C1 -- C2 ------ C5  (main)
+```
+
+#### Prós do Merge
+
+*   ✅ **Rastreabilidade e Fidelidade:** O histórico é 100% fiel ao que aconteceu. Fica claro que houve um trabalho paralelo e um momento exato de integração. É um registro histórico preciso.
+*   ✅ **Segurança e Simplicidade:** É uma operação não-destrutiva. Seus commits existentes permanecem intocados. Isso torna o merge mais seguro e fácil de entender, especialmente para equipes com membros menos experientes.
+*   ✅ **Contexto Preservado:** O grafo mostra o contexto de onde e quando cada branch foi criado e unido, o que pode ser útil para depuração de processos complexos.
+
+#### Contras do Merge
+
+*   ❌ **Histórico Poluído:** Em projetos com muitos branches e desenvolvedores, o histórico do `main` pode se tornar uma teia de aranha de merge commits, tornando muito difícil seguir a linha de desenvolvimento principal.
+*   ❌ **Dificulta a Leitura:** Os commits de merge ("Merge branch 'x' into 'y'") adicionam ruído. Encontrar commits específicos que introduziram uma mudança pode se tornar mais complicado.
+
+---
+
+#### Fluxo de Trabalho com `git rebase`
+
+Você atualiza seu branch de feature reescrevendo sua base para o topo da `main`.
+
+```bash
+git switch feature/perfil
+git rebase main
+```
+
+**Resultado no Histórico:**
+Sua `feature/perfil` agora parece ter sido criada a partir da `main` mais recente.
+
+```
+                  C3'-- C4' (feature/perfil)
+                 /
+C1 -- C2 ------ C5  (main)
+```
+
+#### Prós do Rebase
+
+*   ✅ **Histórico Linear e Limpo:** Este é o principal benefício. O histórico do projeto se torna uma linha reta, fácil de ler do início ao fim. É como ler os capítulos de um livro em ordem.
+*   ✅ **Facilita a Revisão de Código (Code Review):** Ao abrir um Pull Request, todos os seus commits estarão agrupados e sequenciais no topo da `main`, sem merge commits intermediários para atrapalhar a revisão.
+*   ✅ **Commits mais Atômicos:** Facilita a gestão de commits. Com o rebase interativo (`git rebase -i`), você pode organizar, juntar (`squash`) ou reescrever seus commits antes de compartilhá-los, deixando seu trabalho mais coeso.
+
+#### Contras do Rebase
+
+*   ❌ **Reescreve a História:** É uma operação destrutiva. Usá-la incorretamente em um branch compartilhado (como o `main`) é a receita para o desastre em equipe. **A "dica do rebase" é fundamental.**
+*   ❌ **Perde o Contexto:** Você perde a informação de quando o trabalho realmente começou em relação ao branch principal. Para auditorias ou depurações históricas, isso pode ser uma desvantagem.
+*   ❌ **Resolução de Conflitos mais Complexa:** Se vários dos seus commits entram em conflito com as mudanças da `main`, você terá que resolver conflitos repetidamente para cada commit que está sendo reaplicado, o que pode ser tedioso e propenso a erros.
+
+---
+
+### Conclusão: Qual e Quando Usar?
+
+A melhor abordagem, adotada pela maioria das equipes profissionais, é **usar os dois**, aproveitando o melhor de cada um:
+
+1.  **Use `rebase` para o trabalho local:** Ao desenvolver em seu branch de feature (`feature/perfil`), use `git rebase main` periodicamente para manter seu branch atualizado com a `main`. Isso mantém seu trabalho organizado e o histórico da sua feature limpo e linear.
+
+2.  **Use `merge` para integrar na `main`:** Quando seu Pull Request for aprovado, use uma estratégia de **merge** (geralmente um `merge --no-ff` feito pela plataforma como GitHub/GitLab) para integrar a feature inteira na `main`.
+
+**Resultado desse fluxo híbrido:**
+*   Os **branches de feature** são limpos e fáceis de revisar (graças ao `rebase`).
+*   O **histórico da `main`** permanece rastreável, mostrando claramente quando cada feature foi integrada através de um único e significativo merge commit (graças ao `merge`).
+
+É a combinação perfeita de um histórico de projeto limpo e uma rastreabilidade robusta.
