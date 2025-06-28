@@ -30,7 +30,12 @@ Para fazer um commit, digite
 
 Com seus primeiros commits, você pode ver as logs das commits digitando
 
-`git log` ou `git log --decorate` (Aplica mais detalhes) ou `git log --author="<autor>"` (Filtra pro autores) ou `git shortlog` (Log em ordem alfabética de cada autor) ou `git log --graph` (Gráfico das logs), etc.
+- `git log`
+- `git log --decorate` (Aplica mais detalhes)
+- `git log --author="<autor>"` (Filtra pro autores)
+- `git shortlog` (Log em ordem alfabética de cada autor)
+- `git log --graph` (Gráfico das logs)
+**entre outras variantes**
 
 ---
 
